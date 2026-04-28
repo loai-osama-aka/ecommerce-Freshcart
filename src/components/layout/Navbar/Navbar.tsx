@@ -186,7 +186,7 @@ export default function Navbar() {
                   {/* Icons */}
                   <Link
                     href="/wishlist"
-                    className="p-2.5 relative rounded-full text-gray-400 dark:text-gray-300 hover:text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-red-500 transition"
+                    className="p-2.5 hidden sm:block relative rounded-full text-gray-400 dark:text-gray-300 hover:text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-red-500 transition"
                   >
                     <FaHeart className="" size={24} />
                     {/* wishlist badge */}
@@ -207,7 +207,7 @@ export default function Navbar() {
 
                   <Link
                     href="/cart"
-                    className="p-2.5 relative rounded-full text-gray-400 dark:text-gray-300 hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-green-500 transition"
+                    className="p-2.5  hidden sm:block relative rounded-full text-gray-400 dark:text-gray-300 hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-green-500 transition"
                   >
                     <FaShoppingCart size={24} />
 
