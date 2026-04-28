@@ -4,7 +4,7 @@ import { Product } from "@/interfaces/Product";
 import { ResponseType } from "@/types/ResponseType";
 import { SignInResponse } from "@/types/SignInResponse";
 import { AddAddressResponse, AddressPayload } from "@/interfaces/Address/AddAddressResponse";
-import { AddAddressBody, Address, ShippingAddressRequest } from "@/interfaces/Address/Address";
+import { AddAddressBody, ShippingAddressRequest } from "@/interfaces/Address/Address";
 import { Order } from "@/interfaces/myOrders/Order";
 import { Category } from "@/interfaces/Category";
 import { Subcategory } from "@/interfaces/Subcategory";
@@ -15,7 +15,7 @@ import { getAuthToken } from "@/lib/getToken";
 
 
 class ApiServices {
-  #Base_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  #Base_URL = process.env.NEXT_PUBLIC_API_URL ;
   
   // get all products
   async getProducts(params: Record<string, string> = {}): Promise<Product[]> {
@@ -326,27 +326,24 @@ class ApiServices {
   }
   //checkout online payment
   async checkout(cartId: string, value: ShippingAddressRequest) {
-        const token=await getAuthToken()
-        const domain=process.env.Domain || 'localhost'
+  const token = await getAuthToken();
 
-    const response = await fetch(
-      this.#Base_URL +
-        "/api/v1/orders/checkout-session/" +
-        cartId +
-        `?url=${domain}`,
-      {
-        method: "POST",
-        body: JSON.stringify(value),
-        headers:{
-                  'content-type':'application/json',
-               ...(token && { token })
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
-        }
+  const response = await fetch(
+    `${this.#Base_URL}/api/v1/orders/checkout-session/${cartId}?url=${appUrl}`,
+    {
+      method: "POST",
+      body: JSON.stringify(value),
+      headers: {
+        "content-type": "application/json",
+        ...(token && { token }),
       },
-    );
-    const data = await response.json();
-    return data;
-  }
+    }
+  );
+
+  return await response.json();
+}
 
   // cash on order
   async cashOnOrder(cartId: string, value: ShippingAddressRequest) {
