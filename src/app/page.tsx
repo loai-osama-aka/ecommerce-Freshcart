@@ -1,65 +1,133 @@
-import Image from "next/image";
+import FadeIn from "@/components/animation/FadeIn";
+import HeroSlider from "@/components/ui/Home/Carousel";
+import DealsSection from "@/components/ui/Home/DealsSection";
+import NewsletterSection from "@/components/ui/Home/NEwsletterSection";
+import Pros from "@/components/ui/Home/Pros";
+import ProductCard from "@/components/ui/ProductsComponents/ProductCard";
+import apiServices from "@/services/api";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
-export default function Home() {
+export default async function Home() {
+  async function getProducts() {
+    return await apiServices.getProducts();
+  }
+  async function getCategories() {
+    return await apiServices.getCategory();
+  }
+  const category = await getCategories();
+
+  const products = await getProducts();
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="dark:bg-gray-900 bg-white py-8">
+      {/* HERO */}
+      <FadeIn direction="up">
+        <HeroSlider />
+      </FadeIn>
+
+      {/* PROS */}
+      <FadeIn delay={0.1}>
+        <Pros />
+      </FadeIn>
+
+      {/* CATEGORY SECTION */}
+      <FadeIn direction="right" delay={0.2}>
+        <section className="py-5">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+              <div className="flex items-center gap-3 my-8">
+                <div className="h-8 w-1.5 bg-linear-to-b from-emerald-500 to-emerald-700 rounded-full"></div>
+                <h2 className="text-2xl md:text-3xl font-bold dark:text-white text-gray-800">
+                  Shop By <span className="text-emerald-600">Category</span>
+                </h2>
+              </div>
+
+              <Link
+                href="/categories"
+                className="text-green-600 hover:text-green-700 font-medium flex items-center"
+              >
+                View All Categories
+                <FaArrowRight className="ml-2 size-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {category.map((cat) => {
+                return (
+                  <Link
+                    key={cat._id}
+                    href={`/categories/${cat._id}`}
+                    className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 
+      p-4 sm:p-6 shadow-sm hover:shadow-xl 
+      hover:border-emerald-200 dark:hover:border-emerald-500 
+      transition-all duration-300 hover:-translate-y-1 block"
+                  >
+                    {/* Image */}
+                    <div
+                      className="aspect-square rounded-xl overflow-hidden 
+        bg-gray-50 dark:bg-gray-700 mb-4"
+                    >
+                      <img
+                        src={cat.image}
+                        alt={cat.name}
+                        className="w-full h-full object-cover 
+          group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      className="font-bold text-gray-900 dark:text-white text-center 
+        group-hover:text-emerald-600 transition-colors"
+                    >
+                      {cat.name}
+                    </h3>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      {/* DEALS */}
+
+      <DealsSection />
+
+      {/* Products */}
+
+      <FadeIn direction="right" delay={0.2}>
+        <section className="py-5">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+              <div className="flex items-center gap-3 my-8">
+                <div className="h-8 w-1.5 bg-linear-to-b from-emerald-500 to-emerald-700 rounded-full"></div>
+                <h2 className="text-2xl md:text-3xl font-bold dark:text-white text-gray-800">
+                  Featured <span className="text-emerald-600">Products</span>
+                </h2>
+              </div>
+
+              <Link
+                href="/products"
+                className="text-green-600 hover:text-green-700 font-medium flex items-center"
+              >
+                View All Products
+                <FaArrowRight className="ml-2 size-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+      {/* products */}
+      <div className="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {products.slice(0, 10).map((product, idx) => (
+          <div key={idx}>
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+      <FadeIn delay={0.4} direction="up">
+        <NewsletterSection />
+      </FadeIn>
     </div>
   );
 }
