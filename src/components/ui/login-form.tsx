@@ -59,9 +59,10 @@ export function LoginForm({
     console.log(response);
     if (response?.ok) {
       toast.success("logged successfully");
-      router.replace("/");
-    } else {
-      toast.error("Incorrect email or password");
+
+      setTimeout(() => {
+        router.replace("/");
+      }, 500);
     }
   }
 
