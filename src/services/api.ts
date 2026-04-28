@@ -327,12 +327,13 @@ class ApiServices {
   //checkout online payment
   async checkout(cartId: string, value: ShippingAddressRequest) {
         const token=await getAuthToken()
+        const domain=process.env.Domain || 'localhost'
 
     const response = await fetch(
       this.#Base_URL +
         "/api/v1/orders/checkout-session/" +
         cartId +
-        "?url=http://localhost:3000",
+        `?url=${domain}`,
       {
         method: "POST",
         body: JSON.stringify(value),
