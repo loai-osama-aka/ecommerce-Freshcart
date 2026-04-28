@@ -53,7 +53,7 @@ export function LoginForm({
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
-      redirect: false,
+      callbackUrl: "/",
     });
 
     console.log(response);
