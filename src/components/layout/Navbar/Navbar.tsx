@@ -27,7 +27,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const session = useSession();
-  const router=useRouter()
+  const router = useRouter();
   // console.log(session.data?.user.token);
   //  const {counter}= useSelector((state:RootState)=>state.counter)
 
@@ -405,13 +405,11 @@ export default function Navbar() {
               <Button
                 onClick={() => {
                   signOut({ callbackUrl: "/api/auth/signin" });
-                 
                 }}
                 className="w-full flex justify-baseline p-6 text-center  texy-gray-600  hover:bg-green-50 dark:hover:bg-gray-700 dark:text-white dark:hover:text-red-600 hover:text-red-600 transition-colors"
               >
                 <FaSignOutAlt /> Sign Out
               </Button>
-              
             </div>
           ) : (
             <div className="p-4 space-y-1">
@@ -426,7 +424,7 @@ export default function Navbar() {
 
                 {/* Sign Up Button */}
                 <Link
-                  href="/register"
+                  href="/auth/register"
                   className="flex items-center justify-center px-4 py-3 rounded-xl border-2 border-green-600 text-green-600 
                   dark:text-green-400 dark:border-green-400 hover:bg-green-50 dark:hover:bg-gray-800 transition"
                 >
