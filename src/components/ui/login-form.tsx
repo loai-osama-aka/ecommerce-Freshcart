@@ -27,18 +27,20 @@ import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "enter valid password"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
-
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
 
-  const router = useRouter()
-
-  const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<z.infer<typeof formSchema>>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -51,31 +53,28 @@ export function LoginForm({
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
-      redirect: false
-    })
+      redirect: false,
+    });
 
     console.log(response);
     if (response?.ok) {
-      toast.success("logged successfully")
-      router.refresh()
-      router.push('/')
-    }else{
-      toast.error('Incorrect email or password')
+      toast.success("logged successfully");
+      router.refresh();
+      router.push("/");
+    } else {
+      toast.error("Incorrect email or password");
     }
-
-
   }
 
   return (
     <div
       className={cn(
         "min-h-screen flex items-center justify-center px-4  dark:bg-gray-900",
-        className
+        className,
       )}
       {...props}
     >
       <Card className="w-full max-w-md shadow-lg border text-dark dark:text-white border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-
         {/* Header */}
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -89,9 +88,7 @@ export function LoginForm({
         {/* Form */}
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-
             <FieldGroup>
-
               {/* Email */}
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -134,7 +131,7 @@ export function LoginForm({
                     id="password"
                     type="password"
                     placeholder="••••••••"
-                    {...register('password')}
+                    {...register("password")}
                     className="pl-9 py-6 focus:ring-2 focus:ring-green-500"
                   />
                 </div>
@@ -165,7 +162,6 @@ export function LoginForm({
                   </Link>
                 </FieldDescription>
               </Field>
-
             </FieldGroup>
           </form>
         </CardContent>
