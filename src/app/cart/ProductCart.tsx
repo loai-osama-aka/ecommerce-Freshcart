@@ -52,31 +52,59 @@ bg-white dark:bg-gray-900 p-4 shadow-sm hover:shadow-md transition w-full overfl
           <img
             src={item.product.imageCover}
             alt={item.product.title}
-            className="size-full object-cover"
+            className="size-full object-cover hover:scale-105 transition"
           />
         </AspectRatio>
       </div>
 
       {/* Info */}
       <div className="flex flex-1 flex-col justify-between w-full">
-        <h3 className="font-medium text-gray-900 dark:text-white line-clamp-2">
-          {item.product.title}
-        </h3>
+        {/* Title */}
+        <div>
+          <h3 className="font-medium text-gray-900 dark:text-white line-clamp-2">
+            {item.product.title}
+          </h3>
+        </div>
 
+        {/* Quantity */}
         <div className="flex items-center gap-2 mt-2">
-          <Button size="icon" className="size-8">
-            <Minus className="size-3" />
+          <Button
+            variant="outline"
+            disabled={item.count === 1 || isUpdatinig}
+            size="icon"
+            onClick={() => {
+              handleUpdateItem(item.count - 1);
+            }}
+            className="size-8 rounded-lg"
+          >
+            {isDecrease ? (
+              <Loader2 className="animate-spin size-3" />
+            ) : (
+              <Minus className="size-3" />
+            )}
           </Button>
 
-          <span className="w-8 text-center">{item.count}</span>
+          <span className="w-8 text-center ">{item.count}</span>
 
-          <Button size="icon" className="size-8 bg-green-500">
-            <Plus className="size-3" />
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={isUpdatinig}
+            onClick={() => {
+              handleUpdateItem(item.count + 1);
+            }}
+            className="size-8 bg-green-500 rounded-lg"
+          >
+            {isIncrease ? (
+              <Loader2 className="animate-spin size-3" />
+            ) : (
+              <Plus className="size-3" />
+            )}
           </Button>
         </div>
       </div>
 
-      {/* Price */}
+      {/* Price + Actions */}
       <div className="flex flex-col sm:items-end justify-between w-full sm:w-auto">
         <div className="text-left sm:text-right">
           <p className="font-semibold text-gray-900 dark:text-white">
@@ -87,7 +115,20 @@ bg-white dark:bg-gray-900 p-4 shadow-sm hover:shadow-md transition w-full overfl
           </p>
         </div>
 
-        <Button className="w-full sm:w-auto text-red-500">Remove</Button>
+        <Button
+          variant="ghost"
+          disabled={isRemoving}
+          size="sm"
+          onClick={handleRemoveItem}
+          className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+        >
+          {isRemoving ? (
+            <FaSpinner className="mr-1 size-4 animate-spin" />
+          ) : (
+            <Trash2 className="mr-1 size-4" />
+          )}
+          Remove
+        </Button>
       </div>
     </div>
   );
