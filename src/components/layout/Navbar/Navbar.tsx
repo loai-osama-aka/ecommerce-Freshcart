@@ -21,13 +21,13 @@ import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import UserDropDown from "@/components/ui/UserDropDown";
 import { wishListContext } from "@/Contexts/WishlistContext";
-import { useRouter } from "next/navigation";
+
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const session = useSession();
-  const router = useRouter();
+
   // console.log(session.data?.user.token);
   //  const {counter}= useSelector((state:RootState)=>state.counter)
 
@@ -95,20 +95,20 @@ export default function Navbar() {
             {/* NAV LINKS */}
             <nav className="hidden xl:flex items-center gap-6">
               <Link
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-green-600 font-medium transition-colors"
                 href="/"
               >
                 Home
               </Link>
               <Link
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-green-600 font-medium transition-colors"
                 href="/products"
               >
                 Shop
               </Link>
               {/* Dropdown */}
               <div className="relative group">
-                <button className="flex items-center gap-1 dark: text-gray-700 dark:text-gray-300 hover:text-primary-600 font-medium transition-colors">
+                <button className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-green-600 font-medium transition-colors">
                   Categories <FaChevronDown className="text-xs" />
                 </button>
 
@@ -116,7 +116,7 @@ export default function Navbar() {
                   <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl py-2 w-48 border border-gray-200 dark:border-gray-700">
                     <Link
                       href="/categories"
-                      className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 font-medium transition-colors"
+                      className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 font-medium transition-colors"
                     >
                       All Categories
                     </Link>
@@ -149,7 +149,7 @@ export default function Navbar() {
               </div>
 
               <Link
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-green-600 font-medium transition-colors"
                 href="/brands"
               >
                 Brands
@@ -443,7 +443,7 @@ export default function Navbar() {
             href={"/contact"}
           >
             {/* Icon Circle */}
-            <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
               <FaHeadset className="text-green-600" />
             </div>
 

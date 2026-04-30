@@ -20,10 +20,11 @@ import Link from "next/link";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -34,6 +35,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [showCurrent, setShowCurrent] = useState(false);
   const router = useRouter();
 
   const {
@@ -129,11 +131,18 @@ export function LoginForm({
 
                   <Input
                     id="password"
-                    type="password"
+                     type={showCurrent ? "text" : "password"}
                     placeholder="••••••••"
                     {...register("password")}
                     className="pl-9 py-6 focus:ring-2 focus:ring-green-500"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrent(!showCurrent)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                  >
+                    {showCurrent ? <FaEyeSlash className="hover:text-green-400 text-2xl text-black" /> : <FaEye className="hover:text-green-400 text-2xl text-black" />}
+                  </button>
                 </div>
                 {errors.password && (
                   <p className="text-sm text-red-500 mt-1">

@@ -9,6 +9,8 @@ import {
   FaGoogle,
   FaUserPlus,
   FaFacebookF,
+  FaEyeSlash,
+  FaEye,
 } from "react-icons/fa";
 import { useState } from "react";
 import apiServices from "@/services/api";
@@ -26,6 +28,8 @@ type FormValues = {
 };
 
 export default function RegisterPage() {
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showRepassword, setShowRepassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -243,35 +247,65 @@ export default function RegisterPage() {
             </Input>
 
             {/* Password */}
-            <Input label="Password" error={errors.password?.message}>
-              <input
-                type="password"
-                {...register("password", {
-                  required: "Password required",
-                  minLength: {
-                    value: 8,
-                    message: "Min 8 characters",
-                  },
-                })}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+            <Input
+              label="Password"
+              className="relative"
+              error={errors.password?.message}
+            >
+              <div className="relative">
+                <input
+                  type={showCurrent ? "text" : "password"}
+                  {...register("password", {
+                    required: "Password required",
+                    minLength: {
+                      value: 8,
+                      message: "Min 8 characters",
+                    },
+                  })}
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
   bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Strong password"
-              />
+                  placeholder="Strong password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrent(!showCurrent)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                >
+                  {showCurrent ? (
+                    <FaEyeSlash className="hover:text-green-400 text-2xl text-black" />
+                  ) : (
+                    <FaEye className="hover:text-green-400 text-2xl text-black" />
+                  )}
+                </button>
+              </div>
             </Input>
 
             {/* Confirm Password */}
             <Input label="Confirm Password" error={errors.rePassword?.message}>
-              <input
-                type="password"
-                placeholder="please ReEnter your password"
-                {...register("rePassword", {
-                  required: "Confirm your password",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
-                })}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+              <div className="relative">
+                <input
+                  type={showRepassword ? "text" : "password"}
+                  placeholder="please ReEnter your password"
+                  {...register("rePassword", {
+                    required: "Confirm your password",
+                    validate: (value) =>
+                      value === password || "Passwords do not match",
+                  })}
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
   bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-green-500"
-              />
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowRepassword(!showRepassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                >
+                  {showRepassword ? (
+                    <FaEyeSlash className="hover:text-green-400 text-2xl text-black" />
+                  ) : (
+                    <FaEye className="hover:text-green-400 text-2xl text-black" />
+                  )}
+                </button>
+              </div>
             </Input>
 
             {/* Phone */}

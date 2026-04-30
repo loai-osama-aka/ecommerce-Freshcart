@@ -2,12 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  FaEnvelope,
-  FaKey,
-  FaLock,
-  FaArrowLeft,
-} from "react-icons/fa";
+import { FaEnvelope, FaKey, FaLock, FaArrowLeft, FaEyeSlash, FaEye } from "react-icons/fa";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import apiServices from "@/services/api";
@@ -15,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const [showCurrent, setShowCurrent] = useState(false);
 
   const [step, setStep] = useState<"email" | "code" | "reset">("email");
 
@@ -81,7 +77,6 @@ export default function ForgotPasswordPage() {
     try {
       const res = await apiServices.resetPassword(email, newPassword);
       console.log(res);
-      
 
       if (res.token) {
         toast.success("Password reset successful");
@@ -102,7 +97,6 @@ export default function ForgotPasswordPage() {
   return (
     <section className="min-h-screen flex items-center justify-center px-4 bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
-
         {/* ================= HEADER ================= */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -181,7 +175,7 @@ export default function ForgotPasswordPage() {
               <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
 
               <input
-                type="password"
+                type={showCurrent? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password"
@@ -191,6 +185,17 @@ export default function ForgotPasswordPage() {
                 text-gray-900 dark:text-white
                 focus:ring-2 focus:ring-green-500 outline-none"
               />
+              <button
+                type="button"
+                onClick={() => setShowCurrent(!showCurrent)}
+                className="absolute right-4 top-1/2 -translate-y-1/2"
+              >
+                {showCurrent ? (
+                  <FaEyeSlash className="hover:text-green-400 text-2xl text-black" />
+                ) : (
+                  <FaEye className="hover:text-green-400 text-2xl text-black" />
+                )}
+              </button>
             </div>
 
             <button
