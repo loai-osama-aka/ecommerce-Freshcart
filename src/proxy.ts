@@ -14,7 +14,7 @@ export async function proxy(request: NextRequest) {
 
   if (!isAuthenticated) {
     return NextResponse.redirect(
-      new URL("/auth/register", request.url)
+      new URL("/auth/login", request.url)
     );
   }
 

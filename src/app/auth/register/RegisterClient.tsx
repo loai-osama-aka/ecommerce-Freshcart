@@ -347,21 +347,7 @@ export default function RegisterPage() {
   );
 }
 
-/* ================= COMPONENTS ================= */
 
-function Feature({ icon, title, desc }: any) {
-  return (
-    <li className="flex gap-4">
-      <div className="w-12 h-12 flex items-center justify-center bg-green-200 text-green-600 rounded-full text-xl">
-        {icon}
-      </div>
-      <div>
-        <h2 className="font-semibold text-gray-900 dark:text-white">{title}</h2>
-        <p className="text-gray-600 dark:text-gray-300">{desc}</p>
-      </div>
-    </li>
-  );
-}
 
 function Input({ label, children, error }: any) {
   return (
